@@ -29,7 +29,8 @@ config = Script.get_config()
 tmp_dir = Script.get_tmp_dir()
 stack_root = Script.get_stack_root()
 # Hue download url
-download_url = 'cat /etc/yum.repos.d/HDP.repo | grep "baseurl" | awk -F \'=\' \'{print $2"hue/hue-3.11.0.tgz"}\''
+download_url = 'cat /etc/yum.repos.d/ambari-hdp-1.repo | grep "baseurl" -m 1 | awk -F \'=\' \'{print $2"hue/hue-3.11.0.tgz"}\''
+hue_version_dir = 'hue-3.11.0'
 # New Cluster Stack Version that is defined during the RESTART of a Rolling Upgrade
 version = default("/commandParams/version", None)
 stack_name = default("/hostLevelParams/stack_name", None)
@@ -361,7 +362,7 @@ if len(spark_thriftserver_hosts) > 0:
   spark_history_server_url = format("http://{spark_history_server_host}:{spark_history_ui_port}")
 livy_server_hosts = default("/clusterHostInfo/livy_server_hosts", [])
 livy_server_host = 'localhost'
-livy_server_port = '8983'
+livy_server_port = '8998'
 if len(livy_server_hosts) > 0:
   livy_server_host = livy_server_hosts[0]
   livy_server_port = config['configurations']['livy-conf']['livy.server.port']
